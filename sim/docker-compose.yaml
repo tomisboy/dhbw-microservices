@@ -1,0 +1,31 @@
+version: "3"
+services:  
+  sim-temperatur:
+    build: .
+    image: sim
+    container_name: sim-temperatur
+    command: ["npm", "start", "10" , "1234",  "5" , "T" , "10" , "30"]
+
+  sim-co2:
+    build: .
+    image: sim
+    container_name: sim-co2
+    command: ["npm", "start", "10" , "1234",  "5" , "X" , "1001" , "2502"]
+
+  sim-people:
+    build: .
+    image: sim
+    container_name: sim-people
+    command: ["npm", "start", "10" , "1234",  "5" , "P" , "0" , "10"]
+
+  sim-luftfeuchtigkeit:
+    build: .
+    image: sim
+    container_name: sim-luftfeuchtigkeit
+    command: ["npm", "start", "10" , "1234",  "5" , "H" , "40" , "50"]
+
+  sim-feinstaub:
+    build: .
+    image: sim
+    container_name: sim-feinstaub
+    command: ["npm", "start", "10" , "1234",  "5" , "p" , "5555" , "6000"]

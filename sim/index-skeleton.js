@@ -78,7 +78,7 @@ function intervalFunc() {
     if (value >= max)
       value = max; 
     else
-      value = min + (i/10);
+      value = min + i;
     mqttmsg['value'] = value;
 
     console.log('mqttmsg = ', mqttmsg);
@@ -90,6 +90,9 @@ function intervalFunc() {
     }
     if (args[3] == 'H') {
       mqttopic='4934001/H/'+locid;
+    }
+    if (args[3] == 'P') {
+      mqttopic='4934001/P/'+locid;
     }  
     if (args[3] == 'p') {
       mqttopic='4934001/p/'+locid;
@@ -103,7 +106,7 @@ function intervalFunc() {
 
 }
 app.listen(4000, () =>{
-  myinterval = setInterval(intervalFunc, 1500);
+  myinterval = setInterval(intervalFunc, 15000);
 
   console.log('Listening on port 4000')
 });
