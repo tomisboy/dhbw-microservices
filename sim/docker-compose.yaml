@@ -4,7 +4,7 @@ services:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-temperatur
-    command: ["npm", "start", "10" , "1234",  "5" , "T" , "18" , "30"]
+    command: ["npm", "start", "10" , "1234",  "5" , "T" , "10" , "30"]
 
   sim-co2:
     build: .
@@ -16,13 +16,13 @@ services:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-people
-    command: ["npm", "start", "10" , "1234",  "5" , "P" , "19" , "10"]
+    command: ["npm", "start", "10" , "1234",  "5" , "P" , "0" , "50"]
 
   sim-luftfeuchtigkeit:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-luftfeuchtigkeit
-    command: ["npm", "start", "10" , "1234",  "5" , "H" , "60" , "70"]
+    command: ["npm", "start", "10" , "1234",  "5" , "H" , "20" , "70"]
 
   sim-feinstaub:
     build: .
