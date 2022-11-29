@@ -81,7 +81,11 @@ function intervalFunc() {
     mqttmsg['gpslongitude'] = '8.90000';
     mqttmsg['sensortype'] = sensortype
 
-
+//////////////////////////////////////////////////
+//
+//  fragen obs ok ist die Werte per zufall in range
+//
+/////////////////////////////////////////////////
     value = randomValue(min,max)
  
     //if (value >= max)

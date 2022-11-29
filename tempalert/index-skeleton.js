@@ -24,6 +24,47 @@ function mqtt_subscribe(err, granted)
     if (err) {console.log(err);}
 }
 
+
+
+function mqtt_messsageReceived(topic, message, packet)
+{   
+    var obj = JSON.parse(message);
+    locid = obj.locid;
+    sensortype = obj.sensortype
+    value = obj.value
+
+
+    //Hole Bereich des Schwellwerts aus dem Topic
+    const myArray = topic.split("/");
+    let schwellwert_bereich = myArray[1];
+    console.log("Achtung " + schwellwert_bereich + " überschritten!");
+    console.log("Wert: "+ value +" bei Sensor " + sensortype +" am Standort " + locid + ":");
+    console.log('Topic=' +  topic + '  Message=' + message);
+    console.log("\n")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function mqtt_reconnect(err)
 {
     console.log("Reconnect MQTT");
@@ -37,23 +78,6 @@ function mqtt_error(err)
 	if (err) {console.log(err);}
 }
 
-
-function mqtt_messsageReceived(topic, message, packet)
-{   
-    var obj = JSON.parse(message);
-    locid = obj.locid;
-    sensortype = obj.sensortype
-    value = obj.value
-
-
-
-    const myArray = topic.split("/");
-    let schwellwert_bereich = myArray[1];
-    console.log("Achtung " + schwellwert_bereich + " überschritten!");
-    console.log("Wert: "+ value +" bei Sensor " + sensortype +" am Standort " + locid + ":");
-    console.log('Topic=' +  topic + '  Message=' + message);
-    console.log("\n")
-}
 
 function mqtt_close(err)
 {
