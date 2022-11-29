@@ -33,22 +33,19 @@ function mqtt_messsageReceived(topic, message, packet) {
             // Check den Schwellenwert der GÜLTIGEN Sensorenprüfung ab.
             case 'T': {
                 //Überprüfe Schwellwert für T=temperature
-                //Diesr Schwellwert auf unter 15 und über 19 Grad gesetzt  
-                //(Innerräume dürfen nur zwischen 15 und 19 Grad beheizt werden)
-                if (valide_messung.value < 16 || valide_messung.value > 19) {
+                //(Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
+                if (valide_messung.value < 16 || valide_messung.value > 19)
                     sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
 
-                }
                 break;
             }
             case 'X': {
                 //Überprüfe Schwellwert für X=co2
                 //Diesr Schwellwert ist auf 2000 (ppm) festgelegt 
                 //Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
-                if (valide_messung.value > 2000) {
+                if (valide_messung.value > 2000)
                     sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
 
-                }
                 break;
             }
             case 'P': {
@@ -56,21 +53,16 @@ function mqtt_messsageReceived(topic, message, packet) {
                 //Diesr Schwellwert ist auf 20 Personen festgelegt 
                 //in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
                 // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist  
-                if (valide_messung.value < 1 || valide_messung.value > 20) {
+                if (valide_messung.value < 1 || valide_messung.value > 20)
                     sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-
-                }
                 break;
             }
             case 'H': {
                 //Überprüfe Schwellwert für H=luftfeuchtigkeit
                 //in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
                 // Sollten aber mindestens 30 % haben
-                if (valide_messung.value < 30 || valide_messung.value > 60) {
+                if (valide_messung.value < 30 || valide_messung.value > 60)
                     sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-
-
-                }
                 break;
             }
 
@@ -78,9 +70,8 @@ function mqtt_messsageReceived(topic, message, packet) {
                 //Überprüfe Schwellwert für p=Feinstaub (Feinstaub = PM2,5)
                 //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
                 //Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
-                if (valide_messung.value > 5) {
+                if (valide_messung.value > 5)
                     sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-                }
                 break;
             }
 
