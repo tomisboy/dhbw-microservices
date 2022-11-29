@@ -76,8 +76,8 @@ function mqtt_messsageReceived(topic, message, packet) {
         case 'H': {
             //Überprüfe Schwellwert für H=luftfeuchtigkeit
             //in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
-            // Sollten aber mindestens 20 % haben
-            if (value < 20 || value > 60) {
+            // Sollten aber mindestens 30 % haben
+            if (value < 30 || value > 60) {
                 console.log("Schwellwert für relativer Luftfeuchtigkeit erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-Luftfeuchtigkeit"
                 console.log("Publishe an " + mqttopic);
