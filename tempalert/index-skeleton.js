@@ -3,7 +3,7 @@ var Topic = '4934001-errorCase/#'; //subscribe to all topics from postapp
 
 //var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"rectemp-hsMQu1111hewiuhewuTT"});
 
-var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
+var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
 
 
 client.on('connect', mqtt_connect);
