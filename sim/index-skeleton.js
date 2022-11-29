@@ -14,8 +14,8 @@ app.use(express.json());
 
 // add mqtt support
 var mqtt    = require('mqtt');
-var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT"});
-
+//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT"});
+var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-hsMQu1111hewiuhewuTT"});
 const axios = require('axios');
 
 
