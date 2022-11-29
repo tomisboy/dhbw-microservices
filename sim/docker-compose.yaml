@@ -2,30 +2,37 @@ version: "3"
 services:  
   sim-temperatur:
     build: .
-    image: sim
+    image: tomisboy/pub:sim
     container_name: sim-temperatur
-    command: ["npm", "start", "10" , "1234",  "5" , "T" , "10" , "30"]
+    command: ["npm", "start", "10" , "1234",  "5" , "T" , "18" , "30"]
 
   sim-co2:
     build: .
-    image: sim
+    image: tomisboy/pub:sim
     container_name: sim-co2
-    command: ["npm", "start", "10" , "1234",  "5" , "X" , "1001" , "2502"]
+    command: ["npm", "start", "10" , "1234",  "5" , "X" , "1997" , "2502"]
 
   sim-people:
     build: .
-    image: sim
+    image: tomisboy/pub:sim
     container_name: sim-people
-    command: ["npm", "start", "10" , "1234",  "5" , "P" , "0" , "10"]
+    command: ["npm", "start", "10" , "1234",  "5" , "P" , "19" , "10"]
 
   sim-luftfeuchtigkeit:
     build: .
-    image: sim
+    image: tomisboy/pub:sim
     container_name: sim-luftfeuchtigkeit
-    command: ["npm", "start", "10" , "1234",  "5" , "H" , "40" , "50"]
+    command: ["npm", "start", "10" , "1234",  "5" , "H" , "60" , "70"]
 
   sim-feinstaub:
     build: .
-    image: sim
+    image: tomisboy/pub:sim
     container_name: sim-feinstaub
-    command: ["npm", "start", "10" , "1234",  "5" , "p" , "5555" , "6000"]
+    command: ["npm", "start", "10" , "1234",  "5" , "p" , "2" , "6"]
+
+
+    
+networks:
+  default:
+    name: mqtt
+    external: true

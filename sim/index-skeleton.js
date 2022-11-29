@@ -14,9 +14,16 @@ app.use(express.json());
 
 // add mqtt support
 var mqtt    = require('mqtt');
-var client  = mqtt.connect('mqtt://broker.hivemq.com',{clientId:"hsMQu1111hewiuhewuTT"});
+var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT"});
 
 const axios = require('axios');
+
+
+function randomValue(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+}
 
 // parameter für die Übermittlung der Testdaten
 var timeinterval = 5;
@@ -25,7 +32,7 @@ var simanzahl = 5;
 var sensortype = 'T';
 var min = 20;
 var max = 30;
-var value = min;
+var value = randomValue(min,max)
 const args = process.argv.slice(2);
 
 if (args[0] == '?') {
@@ -74,11 +81,13 @@ function intervalFunc() {
     mqttmsg['gpslongitude'] = '8.90000';
     mqttmsg['sensortype'] = sensortype
 
+
+    value = randomValue(min,max)
  
-    if (value >= max)
-      value = max; 
-    else
-      value = min + i;
+    //if (value >= max)
+    //  value = max; 
+    //else
+    //  value = min + i;
     mqttmsg['value'] = value;
 
     console.log('mqttmsg = ', mqttmsg);
