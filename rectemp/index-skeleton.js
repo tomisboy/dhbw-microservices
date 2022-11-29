@@ -35,10 +35,10 @@ function mqtt_messsageReceived(topic, message, packet) {
     switch (sensortyp) {
         case 'T': {
             //Überprüfe Schwellwert für T=temperature
-            //Diesr Schwellwert ist auf 19 Grad festgelegt 
-            //(Innerräume dürfen nur bis 19 Grad beheizt werden)
-            if (value > 19) {
-                console.log("Schwellwert für Temperatur erreicht --> "+ value + "<--" );
+            //Diesr Schwellwert auf unter 15 und über 19 Grad gesetzt  
+            //(Innerräume dürfen nur zwischen 15 und 19 Grad beheizt werden)
+            if (value < 16 || value > 19) {
+                console.log("Schwellwert für Temperatur erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-temperatur"
                 console.log("Publishe an " + mqttopic);
                 console.log("\n");
@@ -51,7 +51,7 @@ function mqtt_messsageReceived(topic, message, packet) {
             //Diesr Schwellwert ist auf 2000 (ppm) festgelegt 
             //Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
             if (value > 2000) {
-                console.log("Schwellwert für Co2 erreicht --> "+ value + "<--" );
+                console.log("Schwellwert für Co2 erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-co2"
                 console.log("Publishe an " + mqttopic);
                 console.log("\n");
@@ -62,9 +62,10 @@ function mqtt_messsageReceived(topic, message, packet) {
         case 'P': {
             //Überprüfe Schwellwert für P=people in a room
             //Diesr Schwellwert ist auf 20 Personen festgelegt 
-            //in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein 
-            if (value > 20) {
-                console.log("Schwellwert für Personen erreicht --> "+ value + "<--" );
+            //in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
+            // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist  
+            if (value <1 || value > 20) {
+                console.log("Schwellwert für Personen erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-Personen"
                 console.log("Publishe an " + mqttopic);
                 console.log("\n");
@@ -75,8 +76,9 @@ function mqtt_messsageReceived(topic, message, packet) {
         case 'H': {
             //Überprüfe Schwellwert für H=luftfeuchtigkeit
             //in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
-            if (value > 60) {
-                console.log("Schwellwert für relativer Luftfeuchtigkeit erreicht --> "+ value + "<--" );
+            // Sollten aber mindestens 20 % haben
+            if (value < 20 || value > 60) {
+                console.log("Schwellwert für relativer Luftfeuchtigkeit erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-Luftfeuchtigkeit"
                 console.log("Publishe an " + mqttopic);
                 console.log("\n");
@@ -90,7 +92,7 @@ function mqtt_messsageReceived(topic, message, packet) {
             //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
             //Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
             if (value > 5) {
-                console.log("Schwellwert für Feinstaub erreicht --> "+ value + "<--" );
+                console.log("Schwellwert für Feinstaub erreicht --> "+ value + " <--" );
                 mqttopic = "4934001-errorCase/Schwellwert-Feinstaub"
                 console.log("Publishe an " + mqttopic);
                 console.log("\n");
