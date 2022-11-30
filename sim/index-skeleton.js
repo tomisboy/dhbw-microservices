@@ -12,13 +12,6 @@ app.use(cors());
 // required to handle the request body
 app.use(express.json());
 
-// add mqtt support
-var mqtt    = require('mqtt');
-//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT"});
-var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-hsMQu1111hewiuhewuTT"});
-const axios = require('axios');
-
-
 function randomValue(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -32,8 +25,9 @@ var simanzahl = 5;
 var sensortype = 'T';
 var min = 20;
 var max = 30;
-var value = randomValue(min,max)
+var value = randomValue(min,max);
 const args = process.argv.slice(2);
+
 
 if (args[0] == '?') {
 
@@ -50,17 +44,26 @@ if (args[0] == '?') {
 
 }
 
-if ((args.length) == 6) {
+if ((args.length) == 7) {
   timeinterval = args[0];
   locid = args[1];
   simanzahl = args[2];
   sensortype = args[3];
   min = parseInt(args[4]);
   max = parseInt(args[5]);
+  MessdatensensorID = args[6];
 } else {
     console.log("Wrong no of arguemts ");
     process.exit();    
 }
+
+// add mqtt support
+var mqtt    = require('mqtt');
+//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT"});
+var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-Random1234" + locid});
+const axios = require('axios');
+
+
 
 var mqttmsg = {};
 var i=0;

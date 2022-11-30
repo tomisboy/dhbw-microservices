@@ -10,25 +10,25 @@ services:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-co2
-    command: ["npm", "start", "10" , "1234",  "5" , "X" , "1997" , "2502"]
+    command: ["npm", "start", "10" , "2345",  "5" , "X" , "1997" , "2502"]
 
   sim-people:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-people
-    command: ["npm", "start", "10" , "1234",  "5" , "P" , "0" , "50"]
+    command: ["npm", "start", "10" , "3456",  "5" , "P" , "0" , "50"]
 
   sim-luftfeuchtigkeit:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-luftfeuchtigkeit
-    command: ["npm", "start", "10" , "1234",  "5" , "H" , "20" , "70"]
+    command: ["npm", "start", "10" , "4567",  "5" , "H" , "20" , "70"]
 
   sim-feinstaub:
     build: .
     image: tomisboy/pub:sim
     container_name: sim-feinstaub
-    command: ["npm", "start", "10" , "1234",  "5" , "p" , "2" , "6"]
+    command: ["npm", "start", "10" , "5678",  "5" , "p" , "2" , "6"]
 
 
     
