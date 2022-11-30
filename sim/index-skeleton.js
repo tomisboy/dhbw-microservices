@@ -44,7 +44,7 @@ if (args[0] == '?') {
 
 }
 
-if ((args.length) == 7) {
+if ((args.length) == 6) {
   timeinterval = args[0];
   locid = args[1];
   simanzahl = args[2];
