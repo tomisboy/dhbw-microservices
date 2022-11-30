@@ -2,9 +2,12 @@ var mqtt = require('mqtt');
 var Topic = '4934001/#'; //subscribe to all topics from postapp
 
 var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
-
 //var client = mqtt.connect('mqtt://mqtt:1883', { clientId: "rectemp-hsMQu1111hewiuhewuTT" });
 
+// Nur definierte Sensoren werden akzeptiert 
+// hier werden die locid der Sensoren definiert, von denen Nachrichten empfangen und gespeichert werden sollen 
+var erlaubte_sensoren = [1234, 3456, 4567, 5678];
+var akuelle_sensoren = []
 
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);
@@ -22,64 +25,104 @@ function mqtt_subscribe(err, granted) {
     if (err) { console.log(err); }
 }
 
-
 function mqtt_messsageReceived(topic, message, packet) {
 
+    if (!(check_valide_sensor(message))) {
+        return // Abbruch wenn Sensor nicht genemigt wird ( nicht in der erlaubten list ist )
+    }
+    else {
 
-    if (valide_messung = validation_test(topic, message)) {
-        // Nur Messungen im Gültigkeitsbereich werden weiter untersucht
+        check_sensor_liveiness(topic);
 
-        switch (valide_messung.sensortyp) {
-            // Check den Schwellenwert der GÜLTIGEN Sensorenprüfung ab.
-            case 'T': {
-                //Überprüfe Schwellwert für T=temperature
-                //(Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
-                if (valide_messung.value < 16 || valide_messung.value > 19)
-                    sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
 
-                break;
+        if (valide_messung = validation_test(topic, message)) {
+            // Nur Messungen im Gültigkeitsbereich werden weiter untersucht
+
+            switch (valide_messung.sensortyp) {
+                // Check den Schwellenwert der GÜLTIGEN Sensorenprüfung ab.
+                case 'T': {
+                    //Überprüfe Schwellwert für T=temperature
+                    //(Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
+                    if (valide_messung.value < 16 || valide_messung.value > 19)
+                        sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
+
+                    break;
+                }
+                case 'X': {
+                    //Überprüfe Schwellwert für X=co2
+                    //Diesr Schwellwert ist auf 2000 (ppm) festgelegt 
+                    //Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
+                    if (valide_messung.value > 2000)
+                        sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
+
+                    break;
+                }
+                case 'P': {
+                    //Überprüfe Schwellwert für P=people in a room
+                    //Diesr Schwellwert ist auf 20 Personen festgelegt 
+                    //in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
+                    // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist  
+                    if (valide_messung.value < 1 || valide_messung.value > 20)
+                        sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
+                    break;
+                }
+                case 'H': {
+                    //Überprüfe Schwellwert für H=luftfeuchtigkeit
+                    //in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
+                    // Sollten aber mindestens 30 % haben
+                    if (valide_messung.value < 30 || valide_messung.value > 60)
+                        sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
+                    break;
+                }
+
+                case 'p': {
+                    //Überprüfe Schwellwert für p=Feinstaub (Feinstaub = PM2,5)
+                    //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
+                    //Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
+                    if (valide_messung.value > 5)
+                        sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
+                    break;
+                }
+
             }
-            case 'X': {
-                //Überprüfe Schwellwert für X=co2
-                //Diesr Schwellwert ist auf 2000 (ppm) festgelegt 
-                //Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
-                if (valide_messung.value > 2000)
-                    sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-
-                break;
-            }
-            case 'P': {
-                //Überprüfe Schwellwert für P=people in a room
-                //Diesr Schwellwert ist auf 20 Personen festgelegt 
-                //in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
-                // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist  
-                if (valide_messung.value < 1 || valide_messung.value > 20)
-                    sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-                break;
-            }
-            case 'H': {
-                //Überprüfe Schwellwert für H=luftfeuchtigkeit
-                //in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
-                // Sollten aber mindestens 30 % haben
-                if (valide_messung.value < 30 || valide_messung.value > 60)
-                    sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-                break;
-            }
-
-            case 'p': {
-                //Überprüfe Schwellwert für p=Feinstaub (Feinstaub = PM2,5)
-                //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
-                //Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
-                if (valide_messung.value > 5)
-                    sende_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-                break;
-            }
-
         }
-
     }
 }
 
+
+
+function check_sensor_liveiness(topic) {
+    /*if (!(akuelle_sensoren.includes(topic))) {
+        akuelle_sensoren.push(topic);
+        timeout = setTimeout(() => {
+        console.log('timeout beyond time');
+    }, 10500);
+    }
+    var timeout = topic
+    console.log(timeout + "vor")
+    
+
+
+    clearTimeout(timeout);
+*/
+}
+
+
+function check_timeout(topic, restart) {
+
+}
+
+function check_valide_sensor(message) {
+    var messung = JSON.parse(message);
+    //console.log(locid)
+    if (erlaubte_sensoren.includes(parseInt(messung.locid)))
+        // Sensor ist in liste der erlaubten sensore und nachricht wird genemigt console.log("Sensor genemigt");
+        return true
+    else {
+        console.log("\n>>ACHTUNG Sensor" + messung.locid + " ist nicht erlaubt. Message wird verworfen\n")
+        return false
+    }
+}
 
 function validation_test(topic, message) {
     // Überprüfe ob Sensoren "normale/gültige" Werte liefern.
@@ -134,8 +177,7 @@ function validation_test(topic, message) {
 
 }
 
-
-function sende_mqtt_message(sensortype, value, messung) {
+function sende_schwellwert_mqtt_message(sensortype, value, messung) {
     console.log(">\tSchwellwert für " + sensortype + " erreicht --> " + value + " <--");
     mqttopic = "4934001-errorCase/Schwellwert-" + sensortype
     console.log("Publishe an " + mqttopic + "\n\n");

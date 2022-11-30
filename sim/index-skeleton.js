@@ -50,6 +50,8 @@ if ((args.length) == 6) {
   simanzahl = args[2];
   sensortype = args[3];
   min = parseInt(args[4]);
+
+  
   max = parseInt(args[5]);
   MessdatensensorID = args[6];
 } else {
