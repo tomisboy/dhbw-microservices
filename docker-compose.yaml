@@ -4,7 +4,7 @@ services:
   rec-temperatur:
     build: ./rectemp
     image: tomisboy/pub:temperatur
-    container_name: temperatur
+    container_name: rectemp
 
 
   tempalert:
@@ -16,9 +16,9 @@ services:
     container_name: mqtt
     restart: always
     volumes:
-      - ~/mosquitto/config:/mosquitto/config
-      - ~/mosquitto/data:/mosquitto/data
-      - ~/mosquitto/log:/mosquitto/log
+      - mqtt/mosquitto/config:/mosquitto/config
+      - mqtt/mosquitto/data:/mosquitto/data
+      - mqtt/mosquitto/log:/mosquitto/log
     ports:
       - "1883:1883"
       - "9001:9001"
