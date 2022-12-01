@@ -18,28 +18,27 @@ erlaubte_sensoren = [1234, 3456, 4567, 5678];
 
 //Schwellwerte:
 //(Temperatur: Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
-//var T_unten = 16;
-var T_unten = 16;
-//module.export = {T_unten}
-var T_oben = 19;
-function set_T_unten(T_oben) { T_oben = T_oben }
+//var global.T_unten = 16;
+global.global.T_unten = 16;
+//module.export = {global.T_unten}
+global.T_oben = 19;
 //CO2:  Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
-var X_oben = 2000;
+global.X_oben = 2000;
 
 //Personen: in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
 // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist
-var P_unten = 1;
-var P_oben = 20;
+global.P_unten = 1;
+global.P_oben = 20;
 
 
 //Luftfeuchtigkeit: in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
 // Sollten aber mindestens 30 % haben
-var H_unten = 30;
-var H_oben = 60;
+global.H_unten = 30;
+global.H_oben = 60;
 
 //Feinstaub:    Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
 //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
-var p_oben = 5;
+global.p_oben = 5;
 
 
 
@@ -58,7 +57,7 @@ function mqtt_subscribe(err, granted) {
 }
 
 function mqtt_messsageReceived(topic, message, packet) {
-    console.log(T_unten, T_oben, X_oben, P_unten, P_oben, H_unten, H_oben, p_oben);
+    console.log(global.T_unten, global.T_oben, global.X_oben, global.P_unten, global.P_oben, global.H_unten, global.H_oben, global.p_oben);
 
     if (!(check_valide_sensor(message))) {
         return // Abbruch wenn Sensor nicht genemigt wird ( nicht in der erlaubten list ist )
@@ -75,28 +74,28 @@ function mqtt_messsageReceived(topic, message, packet) {
                 // Check den Schwellenwert der GÜLTIGEN Sensorenprüfung ab.
                 case 'T': {
                     //Überprüfe Schwellwert für T=temperature
-                    if (valide_messung.value < T_unten || valide_messung.value > T_oben)
+                    if (valide_messung.value < global.T_unten || valide_messung.value > global.T_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
 
                     break;
                 }
                 case 'X': {
                     //Überprüfe Schwellwert für X=co2
-                    if (valide_messung.value > X_oben)
+                    if (valide_messung.value > global.X_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
 
                     break;
                 }
                 case 'P': {
                     //Überprüfe Schwellwert für P=people in a room  
-                    if (valide_messung.value < P_unten || valide_messung.value > P_oben)
+                    if (valide_messung.value < global.P_unten || valide_messung.value > global.P_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
                     break;
                 }
                 case 'H': {
                     //Überprüfe Schwellwert für H=luftfeuchtigkeit
 
-                    if (valide_messung.value < H_unten || valide_messung.value > H_oben)
+                    if (valide_messung.value < global.H_unten || valide_messung.value > global.H_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
                     break;
                 }
@@ -105,7 +104,7 @@ function mqtt_messsageReceived(topic, message, packet) {
                     //Überprüfe Schwellwert für p=Feinstaub (Feinstaub = PM2,5)
 
 
-                    if (valide_messung.value > p_oben)
+                    if (valide_messung.value > global.p_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
                     break;
                 }
@@ -292,7 +291,7 @@ function insert_mongodb(message) {
 
 
 ////
-
+/*
 router.post('/change-parameter', (req, res) => {
     //ändere die Schwellwerte wenn richtiger User mit Passwort im Body mitgesendet wird
     var userid = req.body.userid;
@@ -303,38 +302,38 @@ router.post('/change-parameter', (req, res) => {
     const found = (userid === "admin" && password === "admin");
     if (found) {
 
-        if (req.body.T_unten)
-            T_unten = req.body.T_unten;
+        if (req.body.global.T_unten)
+            global.T_unten = req.body.global.T_unten;
 
-        if (req.body.T_oben)
-            T_oben = req.body.T_oben;
+        if (req.body.global.T_oben)
+            global.T_oben = req.body.global.T_oben;
 
-        if (req.body.X_oben)
-            X_oben = req.body.X_oben;
+        if (req.body.global.X_oben)
+            global.X_oben = req.body.global.X_oben;
 
-        if (req.body.P_unten)
-            P_unten = req.body.P_unten;
+        if (req.body.global.P_unten)
+            global.P_unten = req.body.global.P_unten;
 
-        if (req.body.P_oben)
-            P_oben = req.body.P_oben;
+        if (req.body.global.P_oben)
+            global.P_oben = req.body.global.P_oben;
 
-        if (req.body.H_unten)
-            H_unten = req.body.H_unten;
+        if (req.body.global.H_unten)
+            global.H_unten = req.body.global.H_unten;
 
-        if (req.body.H_oben)
-            H_oben = req.body.H_oben;
+        if (req.body.global.H_oben)
+            global.H_oben = req.body.global.H_oben;
 
-        if (req.body.p_oben)
-            p_oben = req.body.p_oben;
+        if (req.body.global.p_oben)
+            global.p_oben = req.body.global.p_oben;
     }
     else {
         console.log('no such userid/password');
         return res.status(404).send();
     }
     //req.session.user = users;
-    return res.status(200).send('userid and password defined' + T_unten);
+    return res.status(200).send('userid and password defined' + global.T_unten);
 });
 
-
+*/
 module.exports = mqtt;
 module.exports = router;
