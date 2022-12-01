@@ -4,7 +4,8 @@ services:
     build: .
     image: tomisboy/pub:temperatur
     container_name: temperatur
-
+    ports:
+      - "5000:5000"
 
 networks:
   default:
