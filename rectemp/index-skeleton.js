@@ -4,10 +4,8 @@ const app = express();
 app.use(session({secret:"abcdefghijkl", resave:false,saveUninitialized:true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api/", require("./mqtt_stuff"));
-
-const { defineConfig } = require('cypress')
-
-app.use("/api/login", require("./Routes/api/login.js"));
+app.use("/api/", require("./Routes/api/api.js"));
 const mqtt_stuff = require('./mqtt_stuff')
+
+const configs = require('./configs.js')
 app.listen(5000, () => console.log('Server started'));

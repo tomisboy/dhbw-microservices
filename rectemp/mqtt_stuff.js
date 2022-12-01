@@ -8,44 +8,6 @@ client.on('error', mqtt_error);
 client.on('message', mqtt_messsageReceived);
 client.on('close', mqtt_close);
 
-
-
-//##################################################
-//           Config  
-// Nur definierte Sensoren werden akzeptiert 
-// hier werden die locid der Sensoren definiert, von denen Nachrichten empfangen und gespeichert werden sollen 
-erlaubte_sensoren = [1234, 3456, 4567, 5678];
-
-//Schwellwerte:
-//(Temperatur: Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
-//var global.T_unten = 16;
-global.global.T_unten = 16;
-//module.export = {global.T_unten}
-global.T_oben = 19;
-//CO2:  Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
-global.X_oben = 2000;
-
-//Personen: in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
-// Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist
-global.P_unten = 1;
-global.P_oben = 20;
-
-
-//Luftfeuchtigkeit: in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
-// Sollten aber mindestens 30 % haben
-global.H_unten = 30;
-global.H_oben = 60;
-
-//Feinstaub:    Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
-//Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
-global.p_oben = 5;
-
-
-
-var akuelle_sensoren = []
-
-
-
 function mqtt_connect() {
     console.log("Connecting MQTT");
     client.subscribe(Topic, mqtt_subscribe);
@@ -57,7 +19,8 @@ function mqtt_subscribe(err, granted) {
 }
 
 function mqtt_messsageReceived(topic, message, packet) {
-    console.log(global.T_unten, global.T_oben, global.X_oben, global.P_unten, global.P_oben, global.H_unten, global.H_oben, global.p_oben);
+    
+    //console.log(global.T_unten, global.T_oben, global.X_oben, global.P_unten, global.P_oben, global.H_unten, global.H_oben, global.p_oben);
 
     if (!(check_valide_sensor(message))) {
         return // Abbruch wenn Sensor nicht genemigt wird ( nicht in der erlaubten list ist )
@@ -115,7 +78,6 @@ function mqtt_messsageReceived(topic, message, packet) {
 }
 
 
-
 function check_sensor_liveiness(topic) {
     /*if (!(akuelle_sensoren.includes(topic))) {
         akuelle_sensoren.push(topic);
@@ -140,11 +102,11 @@ function check_timeout(topic, restart) {
 function check_valide_sensor(message) {
     var messung = JSON.parse(message);
     //console.log(locid)
-    if (erlaubte_sensoren.includes(parseInt(messung.locid)))
+    if (loc_configs[0].includes(parseInt(messung.locid)))
         // Sensor ist in liste der erlaubten sensore und nachricht wird genemigt console.log("Sensor genemigt");
         return true
     else {
-        console.log("\n>>ACHTUNG Sensor" + messung.locid + " ist nicht erlaubt. Message wird verworfen\n")
+        console.log(">>ACHTUNG<< Sensor" + messung.locid + "ist nicht erlaubt. Message wird verworfen\n")
         return false
     }
 }
@@ -196,28 +158,17 @@ function validation_test(topic, message) {
         return { messung, sensortyp, value }
     }
     else {
-        console.log("\n#################\nFehlerhafte Messung, außerhalb des Güligkeitsbereich, wird nicht übernommen:\n " + "'Topic=" + topic + "Message=" + message + "\n#################\n");
+        console.log("\n>>ACHTUNG<< Fehlerhafte Messung, außerhalb des Güligkeitsbereich, wird nicht übernommen: Topic=" + topic + "Message=" + message + "\n");
         return undefined
     }
 
 }
 
 function sende_schwellwert_mqtt_message(sensortype, value, messung) {
-    console.log(">\tSchwellwert für " + sensortype + " erreicht --> " + value + " <--");
-    mqttopic = "4934001-errorCase/Schwellwert-" + sensortype
-    console.log("Publishe an " + mqttopic + "\n\n");
+    mqttopic = "4934001-errorCase/Schwellwert-" + sensortype 
+    console.log(">\tSchwellwert für " + sensortype + " erreicht --> " + value + " <-- \t  Publishe an " + mqttopic + "\n");
     client.publish(mqttopic, JSON.stringify(messung));
 }
-
-
-
-
-
-
-
-
-
-
 
 
 function mqtt_reconnect(err) {
@@ -258,25 +209,35 @@ var dbconfig = {
 }
 
 var mongoose = require('mongoose');
-var mongooseurl = "mongodb://" + dbconfig.host + ":" + dbconfig.Port + "/" + dbconfig.database
-console.log(mongooseurl);
+// Wenn Datenbank-Config vorhanden,  verwende Config um mit MongoDB zu Connecten
+if (dbconfig) {
+    var mongooseurl = "mongodb://" + dbconfig.host + ":" + dbconfig.Port + "/" + dbconfig.database;
+}
+else {
+    //Datenbank-Config nicht vorhanden nutzte Vorgaben aus dem Anfordungsdokument 
+    var mongooseurl = "mongodb://localhost:27017/Temoeratur";
+}
+//console.log(mongooseurl);
 mongoose.connect(mongooseurl, { useUnifiedTopology: true, useNewUrlParser: true });
 
 //mongoose.connect(mongooseurl);
-var sensor_werte = require('./model/sensor_werte.js');
 
 function insert_mongodb(message) {
     //const User = require('../../model/User');
-    const User = require('./model/sensor_werte.js');
-    console.log("connect")
-
-
+    const sonsor_daten = require('./model/sensor_werte.js');
     var messung = JSON.parse(message);
-    console.log(messung)
+    //console.log(messung)
+
+    // Füge locdescription in die Messung
+    index = global.loc_configs[0].indexOf(parseInt(messung.locid));
+    //console.log(index + ">index")
+    locdescription = global.loc_configs[1][index]
+
 
     const insert_sensor_messung = {
         timestamp: messung.timestamp,
         locid: messung.locid,
+        locdescription: locdescription,
         gpslatitude: messung.gpslatitude,
         gpslongitude: messung.gpslongitude,
         sensortype: messung.sensortype,
@@ -284,56 +245,9 @@ function insert_mongodb(message) {
     };
 
     //const duplicate = await User.findOne({userid: newUser.userid}).exec();
-    User.insertMany(insert_sensor_messung);
-    console.log("save data successful");
+    sonsor_daten.insertMany(insert_sensor_messung);
+    console.log("Schreibe in MongoDB ");
 }
 
-
-
-////
-/*
-router.post('/change-parameter', (req, res) => {
-    //ändere die Schwellwerte wenn richtiger User mit Passwort im Body mitgesendet wird
-    var userid = req.body.userid;
-    var password = req.body.password;
-
-
-    console.log(userid, password)
-    const found = (userid === "admin" && password === "admin");
-    if (found) {
-
-        if (req.body.global.T_unten)
-            global.T_unten = req.body.global.T_unten;
-
-        if (req.body.global.T_oben)
-            global.T_oben = req.body.global.T_oben;
-
-        if (req.body.global.X_oben)
-            global.X_oben = req.body.global.X_oben;
-
-        if (req.body.global.P_unten)
-            global.P_unten = req.body.global.P_unten;
-
-        if (req.body.global.P_oben)
-            global.P_oben = req.body.global.P_oben;
-
-        if (req.body.global.H_unten)
-            global.H_unten = req.body.global.H_unten;
-
-        if (req.body.global.H_oben)
-            global.H_oben = req.body.global.H_oben;
-
-        if (req.body.global.p_oben)
-            global.p_oben = req.body.global.p_oben;
-    }
-    else {
-        console.log('no such userid/password');
-        return res.status(404).send();
-    }
-    //req.session.user = users;
-    return res.status(200).send('userid and password defined' + global.T_unten);
-});
-
-*/
-module.exports = mqtt;
+//module.exports = mqtt;
 module.exports = router;
