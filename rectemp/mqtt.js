@@ -1,4 +1,7 @@
 var mqtt = require('mqtt');
+const db = require('./db.js')
+
+
 var Topic = '4934001/#'; //subscribe to all topics from postapp
 var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
 //var client = mqtt.connect('mqtt://mqtt:1883', { clientId: "rectemp-hsMQu1111hewiuhewuTT" });
@@ -32,7 +35,7 @@ function mqtt_messsageReceived(topic, message, packet) {
 
         if (valide_messung = validation_test(topic, message)) {
             // Nur Messungen im Gültigkeitsbereich werden weiter untersucht
-            insert_mongodb(message); //schreibe in DB 
+            db.insert_mongodb(message); //schreibe in DB 
             switch (valide_messung.sensortyp) {
                 // Check den Schwellenwert der GÜLTIGEN Sensorenprüfung ab.
                 case 'T': {
@@ -193,7 +196,7 @@ function mqtt_close(err) {
 const express = require("express");
 const router = express.Router();
 
-
+/*
 /////
 // Mongo DB
 
@@ -248,6 +251,6 @@ function insert_mongodb(message) {
     sonsor_daten.insertMany(insert_sensor_messung);
     console.log("Schreibe in MongoDB ");
 }
-
+*/
 //module.exports = mqtt;
 module.exports = router;
