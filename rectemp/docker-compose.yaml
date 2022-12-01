@@ -2,8 +2,8 @@ version: "3"
 services:  
   rec-temperatur:
     build: .
-    image: tomisboy/pub:rectemp
-    container_name: rectemp
+    image: tomisboy/pub:temperatur
+    container_name: temperatur
 
 
 networks:

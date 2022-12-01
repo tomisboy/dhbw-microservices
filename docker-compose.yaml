@@ -1,0 +1,39 @@
+version: "3.5"
+
+services:  
+  rec-temperatur:
+    build: ./rectemp
+    image: tomisboy/pub:temperatur
+    container_name: temperatur
+
+
+  tempalert:
+    build: ./tempalert
+    image: tomisboy/pub:tempalert
+    container_name: tempalert
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mqtt
+    restart: always
+    volumes:
+      - ~/mosquitto/config:/mosquitto/config
+      - ~/mosquitto/data:/mosquitto/data
+      - ~/mosquitto/log:/mosquitto/log
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+  mongo:
+    image: mongo:4.4.6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_custom_vol
+
+
+
+networks:
+  default:
+    name: mqtt
+    external: true
