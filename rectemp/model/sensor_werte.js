@@ -15,4 +15,4 @@ let Sensor_Schema = new Schema(
     }
 );
 
-module.exports = mongoose.model("sensor_werte", Sensor_Schema);
+module.exports = mongoose.model("sensor", Sensor_Schema);

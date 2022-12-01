@@ -3,12 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 const mqtt_stuff = require("../../mqtt_stuff.js")
-
+var { T_unten } = require("../../mqtt_stuff.js")
 
 router.get("/", async (req, res) => {
     console.log("find all docs in mongodb");
 });
-router.post('/change-parameter', (req, res) => {
+router.post('/change-parameter', async (req, res) => {
     var userid = req.body.userid;
     var password = req.body.password;
 
@@ -19,11 +19,15 @@ router.post('/change-parameter', (req, res) => {
 
     if (found) {
 
-        if (req.body.t_unten)
-            t_unten = req.body.t_unten;
-
+        if (req.body.T_unten) {
+            console.log(req.body.T_unten);
+            //set_T_unten(req.body.T_unten)
+            console.log(mqtt_stuff.T_unten)
+            await (mqtt_stuff.T_unten = req.body.T_unten);
+            console.log(mqtt_stuff.T_unten)
+        }
         if (req.body.t_oben)
-            t_oben = req.body.t_unten;
+            t_oben = req.body.t_oben;
 
         if (req.body.x_oben)
             x_oben = req.body.x_oben;
@@ -48,7 +52,7 @@ router.post('/change-parameter', (req, res) => {
         return res.status(404).send();
     }
     //req.session.user = users;
-    return res.status(200).send('userid and password defined' + t_unten);
+    return res.status(200).send('userid and password' + T_unten);
 });
 
 module.exports = router;

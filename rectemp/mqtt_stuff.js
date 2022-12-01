@@ -18,8 +18,9 @@ erlaubte_sensoren = [1234, 3456, 4567, 5678];
 
 //Schwellwerte:
 //(Temperatur: Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
+//var T_unten = 16;
 var T_unten = 16;
-
+//module.export = {T_unten}
 var T_oben = 19;
 function set_T_unten(T_oben) { T_oben = T_oben }
 //CO2:  Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
@@ -260,55 +261,33 @@ var dbconfig = {
 var mongoose = require('mongoose');
 var mongooseurl = "mongodb://" + dbconfig.host + ":" + dbconfig.Port + "/" + dbconfig.database
 console.log(mongooseurl);
+mongoose.connect(mongooseurl, { useUnifiedTopology: true, useNewUrlParser: true });
+
 //mongoose.connect(mongooseurl);
 var sensor_werte = require('./model/sensor_werte.js');
 
 function insert_mongodb(message) {
-
-    //schreibt immer nur die erste Message in Mongo ?!?!?!?!?!?
-    mongoose.connect(mongooseurl);
-    var db = mongoose.connection;
-    console.log("drinne");
+    //const User = require('../../model/User');
+    const User = require('./model/sensor_werte.js');
+    console.log("connect")
 
 
+    var messung = JSON.parse(message);
+    console.log(messung)
 
-        console.log("insert_funktion")
-        mongoose.connect(mongooseurl);
-        console.log("connect")
-    
-    
-        var messung = JSON.parse(message);
-        console.log(messung)
-        var insert_sensor_messung = new sensor_werte({
-            timestamp: messung.timestamp,
-            locid: messung.locid,
-            gpslatitude: messung.gpslatitude,
-            gpslongitude: messung.gpslongitude,
-            sensortype: messung.sensortype,
-            value: messung.value
-        });
-    
-    
-        var db = mongoose.connection;
-    
-        // db.on('error', console.log("1error"));
-        db.on('error', console.error.bind(console, 'connection error:'));
-    
-        db.once('open', function () {
-            console.log("Connection Successfull!");
-    
-            // save model to database
-            insert_sensor_messung.save(function (err) {
-                //sensor_werte.insertMany(insert_sensor_messung, function (err) {
-                if (err) return console.error(err);
-                console.log(" saved !!!!!!!!!!!!!!!!!!!!!.");
-            });
-    
-        });
+    const insert_sensor_messung = {
+        timestamp: messung.timestamp,
+        locid: messung.locid,
+        gpslatitude: messung.gpslatitude,
+        gpslongitude: messung.gpslongitude,
+        sensortype: messung.sensortype,
+        value: messung.value
+    };
 
-    return (true);
+    //const duplicate = await User.findOne({userid: newUser.userid}).exec();
+    User.insertMany(insert_sensor_messung);
+    console.log("save data successful");
 }
-
 
 
 
@@ -355,12 +334,6 @@ router.post('/change-parameter', (req, res) => {
     //req.session.user = users;
     return res.status(200).send('userid and password defined' + T_unten);
 });
-
-
-
-
-
-
 
 
 module.exports = mqtt;
