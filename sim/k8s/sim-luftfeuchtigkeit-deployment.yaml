@@ -25,4 +25,5 @@ spec:
             - "20"
             - "70"
           image: tomisboy/pub:sim
+          imagePullPolicy: Always
           name: sim-luftfeuchtigkeit

@@ -16,6 +16,7 @@ spec:
       containers:
       - name: rectemp
         image: tomisboy/pub:rectemp
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
 

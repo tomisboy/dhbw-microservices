@@ -25,4 +25,5 @@ spec:
             - "10"
             - "100"
           image: tomisboy/pub:sim
+          imagePullPolicy: Always
           name: sim-temperatur

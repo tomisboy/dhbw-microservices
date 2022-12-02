@@ -25,4 +25,5 @@ spec:
             - "1997"
             - "2502"
           image: tomisboy/pub:sim
+          imagePullPolicy: Always
           name: sim-co2

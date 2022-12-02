@@ -25,4 +25,5 @@ spec:
             - "0"
             - "50"
           image: tomisboy/pub:sim
+          imagePullPolicy: Always
           name: sim-people

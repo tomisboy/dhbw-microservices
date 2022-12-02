@@ -25,4 +25,5 @@ spec:
             - "2"
             - "6"
           image: tomisboy/pub:sim
+          imagePullPolicy: Always
           name: sim-feinstaub
