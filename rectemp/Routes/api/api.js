@@ -2,8 +2,11 @@ const { application } = require("express");
 const express = require("express");
 const sensor_werte = require("../../model/sensor_werte.js");
 const router = express.Router();
-require('dotenv').config();
-
+const configs = require("../../configs.js");
+var authentifcation = {
+  userid: global.env.USERID,
+  password:  global.env.PASSWORD
+}
 
 
 router.get("/", async(req, res) => {
@@ -15,7 +18,6 @@ router.get("/", async(req, res) => {
   router.get ('/getLocid/:locid/', async(req, res) => {
     //console.log("reg =", req);
     locid=(req.params.locid);
-    console.log("userid = ", locid);
   
     sensor_werte.find({locid: locid}, function(err,docs) {
       if (err) {
@@ -52,10 +54,7 @@ router.post('/change-parameter', async (req, res) => {
     var userid = req.body.userid;
     var password = req.body.password;
     var rueckgabe = ""
-    var authentifcation = {
-        userid: process.env.userid,
-        password: process.env.password
-    }
+
     
     const login = (userid === authentifcation.userid && password === authentifcation.password);
 
@@ -124,12 +123,13 @@ router.post('/change-parameter', async (req, res) => {
 router.post('/loc_configs', async (req, res) => {
     var userid = req.body.userid;
     var password = req.body.password;
-    var authentifcation = {
-        userid: process.env.userid,
-        password: process.env.password
-    }
+
+    //const login = (userid === authentifcation.userid && password === authentifcation.password);
     const login = (userid === authentifcation.userid && password === authentifcation.password);
+
+    console.log(userid === authentifcation.userid)
     if (login && req.body.locid && req.body.locdescription) { 
+      console.log("")
         //Wenn authentifiziert und locid und locdescription vorhanden ist 
 
         if (global.loc_configs[0].includes(parseInt(req.body.locid))) {

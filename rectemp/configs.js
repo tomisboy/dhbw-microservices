@@ -31,13 +31,14 @@ global.H_oben = 60;
 global.p_oben = 5;
 
 
+// Config Parameter für MongoDB und MQTT und Zugangsdaten für Admins für die API Calls 
 global.env = {
-    DB_HOST: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    DB_DATEBASE: process.env.DB_DATEBASE,
-    DB_PORT: process.env.DB_PORT,
-    mqtt_host: process.env.MQTT_HOST
+    MQTT_HOST: "192.168.165.3:1883",
+    DB_HOST: "192.168.165.3",
+    DB_DATEBASE: "Temperatur",
+    DB_PORT: "27017",
+    USERID: "admin",
+    PASSWORD: "admin",
 }
 
 

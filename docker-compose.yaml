@@ -13,7 +13,9 @@ services:
     build: ./tempalert
     image: tomisboy/pub:tempalert
     container_name: tempalert
-  mosquitto:
+
+
+  mqtt:
     image: eclipse-mosquitto
     container_name: mqtt
     restart: always
@@ -30,8 +32,18 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    volumes:
-      - mongodb_custom_vol
+    volumes: 
+      - mongodb_volume:/data/db
+
+
+
+
+
+
+
+
+volumes:
+  mongodb_volume:
 
 
 

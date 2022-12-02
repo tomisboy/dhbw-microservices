@@ -6,6 +6,7 @@ services:
     container_name: sim-temperatur
     command: ["npm", "start", "10" , "1234",  "500" , "T" , "10" , "100"]
 
+
   sim-co2:
     build: .
     image: tomisboy/pub:sim

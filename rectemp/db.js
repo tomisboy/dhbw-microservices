@@ -1,8 +1,5 @@
-const env = require('./configs.js')
+const configs = require('./configs.js')
 var mongoose = require('mongoose');
-
-
-console.log("MongoDB HOST: " + global.env.DB_HOST)
 
 // Wenn Datenbank-Config vorhanden,  verwende Config um mit MongoDB zu Connecten
 if (env) {
