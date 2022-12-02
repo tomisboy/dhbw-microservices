@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sim-deployment
+  name: sim-co2-deployment
   labels:
     app: sim-co2
 spec:
