@@ -17,13 +17,13 @@ spec:
       containers:
         - args:
            - npm
-            - start
-            - "10"
-            - "5678"
-            - "500"
-            - p
-            - "2"
-            - "6"
+           - start
+           - "10"
+           - "5678"
+           - "500"
+           - p
+           - "2"
+           - "6"
           image: tomisboy/pub:sim
           imagePullPolicy: Always
           name: sim-feinstaub
