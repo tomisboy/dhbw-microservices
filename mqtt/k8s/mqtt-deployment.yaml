@@ -25,11 +25,11 @@ spec:
             subPath: mosquitto.conf
           - name: "mqtt-data"
             mountPath: "/mosquitto/"
-      volumes:
-      - name: mqtt-config
-        configMap:
-          name: mosquitto-configmap
-      - name: data
+  volumes:
+    - name: mqtt-config
+      configMap:
+        name: mosquitto-configmap
+    - name: data
       pesristentVolumeclaim:
-          claimName: mqtt-data
+        claimName: mqtt-data
 
