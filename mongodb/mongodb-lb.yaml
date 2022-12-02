@@ -9,5 +9,5 @@ spec:
   type: LoadBalancer
   ports:
   - name: mongo
-    port: 1883
-    targetPort: 1883
+    port: 27017
+    targetPort: 27017
