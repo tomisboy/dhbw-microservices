@@ -23,7 +23,17 @@ spec:
           mountPath: /.config/mosquitto/mosquitto.conf
           subPath: mosquitto.conf
 
+        - name: mqtt-data
+          mountPath: /mosquitto/data
+        - name: mqtt-log
+          mountPath: /mosquitto/log
+
       volumes:
       - name: config-file
         configMap:
-          name: mqtt-config
+          name: mqtt-configmap
+
+      - name: mqtt-data
+        persistentVolumeClaim:
+          claimName: "mqtt-data"
+      
