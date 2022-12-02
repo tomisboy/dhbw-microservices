@@ -8,7 +8,6 @@ spec:
   selector:
     matchLabels:
       app: mqtt
-  strategy: {}
   template:
     metadata:
       labels:
@@ -20,19 +19,11 @@ spec:
         ports:
         - containerPort: 1883
         volumeMounts:
-        - name: mqtt-config
-          mountPath: /mosquitto/
+        - name: config-file
+          mountPath: /.config/mosquitto/mosquitto.conf
           subPath: mosquitto.conf
-        - name: "mqtt-data"
-          mountPath: "/mosquitto/"
+
       volumes:
-      - name: data
-        pesristentVolumeclaim:
-          claimName: mqtt-data
-
-
-      - name: mqtt-config
+      - name: config-file
         configMap:
-          name: mosquitto-configmap
-        persistentVolumeClaim:
-          claimName: "mongo-data"
+          name: mosquitto-config
