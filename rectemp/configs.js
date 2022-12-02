@@ -9,7 +9,7 @@ global.loc_configs = [[1234, 3456, 4567, 5678],
 //Schwellwerte:
 //(Temperatur: Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)
 //var global.T_unten = 16;
-global.global.T_unten = 16;
+global.T_unten = 16;
 //module.export = {global.T_unten}
 global.T_oben = 19;
 //CO2:  Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
@@ -29,3 +29,18 @@ global.H_oben = 60;
 //Feinstaub:    Im Raum darf nicht mehr als 5 µg/m³ Feinstaub vorhanden sein 
 //Die Weltgesundheitsorganisation WHO hat einen Richtwert für PM2,5 von 5 µg/m³
 global.p_oben = 5;
+
+
+global.env = {
+    DB_HOST: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    DB_DATEBASE: process.env.DB_DATEBASE,
+    DB_PORT: process.env.DB_PORT,
+    mqtt_host: process.env.MQTT_HOST
+}
+
+console.log("MQTT HOST: " + env.mqtt_host)
+console.log("MongoDD HOST: " + env.DB_HOST)
+
+

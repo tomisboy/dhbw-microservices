@@ -1,21 +1,15 @@
-require('dotenv').config();
-
-var dbconfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATEBASE,
-    Port: process.env.PORT
-}
-
+const env = require('./configs.js')
 var mongoose = require('mongoose');
+console.log("hIER" + global.env.DB_HOST);
+console.log("HIER PORT " + global.env.DB_PORT);
+console.log("HIER DB_DATEBASE " + global.env.DB_PORT);
 // Wenn Datenbank-Config vorhanden,  verwende Config um mit MongoDB zu Connecten
-if (dbconfig) {
-    var mongooseurl = "mongodb://" + dbconfig.host + ":" + dbconfig.Port + "/" + dbconfig.database;
+if (env) {
+    var mongooseurl = "mongodb://" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;
 }
 else {
     //Datenbank-Config nicht vorhanden nutzte Vorgaben aus dem Anfordungsdokument 
-    var mongooseurl = "mongodb://localhost:27017/Temoeratur";
+    var mongooseurl = "mongodb://localhost:27017/Temperatur";
 }
 //console.log(mongooseurl);
 mongoose.connect(mongooseurl, { useUnifiedTopology: true, useNewUrlParser: true });
