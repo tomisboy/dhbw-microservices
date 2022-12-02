@@ -61,10 +61,11 @@ if ((args.length) == 6) {
 
 // add mqtt support
 var mqtt    = require('mqtt');
-var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-hsMQu1111hewiuhewuTT" + locid});
-//var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-Random1234" + locid});
-const axios = require('axios');
+var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
 
+console.log(client);
+//var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
+const axios = require('axios');
 
 
 var mqttmsg = {};

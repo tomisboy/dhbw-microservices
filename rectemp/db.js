@@ -1,8 +1,9 @@
 const env = require('./configs.js')
 var mongoose = require('mongoose');
-console.log("hIER" + global.env.DB_HOST);
-console.log("HIER PORT " + global.env.DB_PORT);
-console.log("HIER DB_DATEBASE " + global.env.DB_PORT);
+
+
+console.log("MongoDB HOST: " + global.env.DB_HOST)
+
 // Wenn Datenbank-Config vorhanden,  verwende Config um mit MongoDB zu Connecten
 if (env) {
     var mongooseurl = "mongodb://" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;

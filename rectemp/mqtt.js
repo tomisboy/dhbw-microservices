@@ -2,7 +2,7 @@ var mqtt = require('mqtt');
 const db = require('./db.js')
 const env = require('./configs.js')
 
-console.log("--_> mqtt://"+ global.env.mqtt_host);
+console.log("MQTT_HOST=mqtt://"+ global.env.mqtt_host);
 var Topic = '4934001/#'; //subscribe to all topics from postapp
 //var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
 

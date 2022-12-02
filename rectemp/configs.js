@@ -40,7 +40,4 @@ global.env = {
     mqtt_host: process.env.MQTT_HOST
 }
 
-console.log("MQTT HOST: " + env.mqtt_host)
-console.log("MongoDD HOST: " + env.DB_HOST)
-
 
