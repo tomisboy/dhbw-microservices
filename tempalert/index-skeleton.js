@@ -3,8 +3,10 @@ var Topic = '4934001-errorCase/#'; //subscribe to all topics from postapp
 
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"1tempalert-hsMQu1111hewiuhewuTT"});
 
-var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
+//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
+//var client  = mqtt.connect('mqtt://localhost:1883',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
 
+var client  = mqtt.connect('mqtt://lb-mqtt:1883',{clientId:"tempalert-hsMQu1111hewiuhewuTT"});
 
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);

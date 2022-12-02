@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sim-deployment
+  labels:
+    app: sim-luftfeuchtigkeit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sim-luftfeuchtigkeit
+  template:
+    metadata:
+      labels:
+        app: sim-luftfeuchtigkeit
+    spec:
+      containers:
+        - args:
+            - npm
+            - start
+            - "10"
+            - "4567"
+            - "500"
+            - H
+            - "20"
+            - "70"
+          image: tomisboy/pub:sim
+          name: sim-luftfeuchtigkeit

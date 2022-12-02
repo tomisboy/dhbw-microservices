@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lb-rectemp
+  annotations:
+spec:
+  selector:
+    app: rectemp
+  type: LoadBalancer
+  ports:
+  - name: rectemp
+    port: 5000
+    targetPort: 5000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

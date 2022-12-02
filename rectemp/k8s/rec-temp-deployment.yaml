@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rectemp
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rectemp
+  template:
+    metadata:
+      labels:
+        app: rectemp
+    spec:
+      containers:
+      - name: rectemp
+        image: tomisboy/pub:rectemp
+        ports:
+        - containerPort: 5000
+
+
+
+
+
+
+

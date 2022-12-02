@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sim-deployment
+  labels:
+    app: sim-feinstaub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sim-feinstaub
+  template:
+    metadata:
+      labels:
+        app: sim-feinstaub
+    spec:
+      containers:
+        - args:
+           - npm
+            - start
+            - "10"
+            - "5678"
+            - "500"
+            - p
+            - "2"
+            - "6"
+          image: tomisboy/pub:sim
+          name: sim-feinstaub

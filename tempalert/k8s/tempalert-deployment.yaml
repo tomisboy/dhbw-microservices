@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempalert
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempalert
+  template:
+    metadata:
+      labels:
+        app: tempalert
+    spec:
+      containers:
+      - name: tempalert
+        image: tomisboy/pub:tempalert
+        ports:
+        - containerPort: 5000
+
+
+
+
+
+
+

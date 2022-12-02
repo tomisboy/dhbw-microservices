@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sim-deployment
+  labels:
+    app: sim-people
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sim-people
+  template:
+    metadata:
+      labels:
+        app: sim-people
+    spec:
+      containers:
+        - args:
+            - npm
+            - start
+            - "10"
+            - "3456"
+            - "500"
+            - P
+            - "0"
+            - "50"
+          image: tomisboy/pub:sim
+          name: sim-people
