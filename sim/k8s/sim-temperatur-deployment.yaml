@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sim-deployment
+  name: sim-temperatur-deployment
   labels:
     app: sim-temperatur
 spec:
