@@ -15,21 +15,24 @@ spec:
         app: mqtt
     spec:
       containers:
-        - name: mqtt
-          image: eclipse-mosquitto
-          ports:
-          - containerPort: 1883
-      volumeMounts:
-          - name: mqtt-config
-            mountPath: /mosquitto/
-            subPath: mosquitto.conf
-          - name: "mqtt-data"
-            mountPath: "/mosquitto/"
-  volumes:
-    - name: mqtt-config
-      configMap:
-        name: mosquitto-configmap
-    - name: data
-      pesristentVolumeclaim:
-        claimName: mqtt-data
+      - name: mqtt
+        image: eclipse-mosquitto
+        ports:
+        - containerPort: 1883
+        volumeMounts:
+        - name: mqtt-config
+          mountPath: /mosquitto/
+          subPath: mosquitto.conf
+        - name: "mqtt-data"
+          mountPath: "/mosquitto/"
+      volumes:
+      - name: data
+        pesristentVolumeclaim:
+          claimName: mqtt-data
 
+
+      - name: mqtt-config
+        configMap:
+          name: mosquitto-configmap
+        persistentVolumeClaim:
+          claimName: "mongo-data"
