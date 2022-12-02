@@ -20,13 +20,11 @@ spec:
         - containerPort: 1883
         volumeMounts:
         - name: config-file
-          mountPath: /.config/mosquitto/mosquitto.conf
+          mountPath: /mosquitto/config/mosquitto.conf
           subPath: mosquitto.conf
 
         - name: mqtt-data
-          mountPath: /mosquitto/data
-        - name: mqtt-log
-          mountPath: /mosquitto/log
+          mountPath: /mosquitto/
 
       volumes:
       - name: config-file
@@ -36,8 +34,3 @@ spec:
       - name: mqtt-data
         persistentVolumeClaim:
           claimName: "mqtt-data"
-
-      - name: mqtt-log
-        persistentVolumeClaim:
-          claimName: "mqtt-data"
-      
