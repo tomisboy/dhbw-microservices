@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: lb-mongo
+  annotations:
+spec:
+  selector:
+    app: mongo
+  type: LoadBalancer
+  ports:
+  - name: mongo
+    port: 1883
+    targetPort: 1883
