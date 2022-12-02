@@ -36,4 +36,8 @@ spec:
       - name: mqtt-data
         persistentVolumeClaim:
           claimName: "mqtt-data"
+
+      - name: mqtt-log
+        persistentVolumeClaim:
+          claimName: "mqtt-data"
       
