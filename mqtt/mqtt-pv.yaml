@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mqtt
+  name: mqtt-data-pv
 spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 1Gi
+    storage: 5Gi
   hostPath:
-    path: /srv/mqtt/config
-
+    path: /mosquitto
 
