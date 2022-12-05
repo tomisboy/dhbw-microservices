@@ -15,10 +15,10 @@ global.T_oben = 19;
 //CO2:  Innerräume dürfen nicht mehr als 2000 ppm Co2 beinhalten 
 global.X_oben = 2000;
 
-//Personen: in Innerräume dürfen nicht mehr 20 Personen gleichzeitig sein
+//Personen: in Innerräume dürfen nicht mehr 10 Personen gleichzeitig sein
 // Zusätzlich soll, eine Warnung ausgegeben werden wenn der raum leer ist
 global.P_unten = 1;
-global.P_oben = 20;
+global.P_oben = 10;
 
 
 //Luftfeuchtigkeit: in Innerräume dürfen nicht mehr als  60% relativer Luftfeuchtigkeit haben
