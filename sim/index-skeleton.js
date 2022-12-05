@@ -8,9 +8,7 @@ var mqtt    = require('mqtt');
 //Setzte mqtturl (auf LB von Kubernetes)
 
 var mqttHOSTurl = "192.168.49.2:32244" 
-//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
-var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
-//console.log(client);
+
 
 const express = require('express');
 const app = express();
@@ -68,7 +66,9 @@ if ((args.length) == 6) {
     process.exit();    
 }
 
-
+//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
+var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
+//console.log(client);
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
 const axios = require('axios');
 
