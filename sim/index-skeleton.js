@@ -10,7 +10,7 @@ var mqtt    = require('mqtt');
 var mqttHOSTurl = "192.168.49.2:32244" 
 //var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
 var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
-console.log(client);
+//console.log(client);
 
 const express = require('express');
 const app = express();
@@ -28,7 +28,7 @@ function randomValue(min, max) {
 }
 
 // parameter für die Übermittlung der Testdaten
-var timeinterval = 5;
+var timeinterval = 10000;
 var locid = '1234';
 var simanzahl = 5;
 var sensortype = 'T';
@@ -72,6 +72,7 @@ if ((args.length) == 6) {
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
 const axios = require('axios');
 
+myinterval = setInterval(intervalFunc, timeinterval*1000);
 
 var mqttmsg = {};
 var i=0;
@@ -129,8 +130,8 @@ function intervalFunc() {
 
 
 }
-app.listen(4000, () =>{
-  myinterval = setInterval(intervalFunc, 15000);
+//app.listen(4000, () =>{
+//  myinterval = setInterval(intervalFunc, 15000);
 
-  console.log('Listening on port 4000')
-});
+//  console.log('Listening on port 4000')
+//});
