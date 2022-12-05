@@ -2,6 +2,15 @@
 //   das simulationsprogramm soll erweitert werden, um alle Daten die in der Aufgabenstellung
 //   beschrieben sind zu erzeugen und zu senden
 // change history
+// add mqtt support
+var mqtt    = require('mqtt');
+
+//Setzte mqtturl (auf LB von Kubernetes)
+
+var mqttHOSTurl = "192.168.49.2:32244" 
+//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
+var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
+console.log(client);
 
 const express = require('express');
 const app = express();
@@ -59,11 +68,7 @@ if ((args.length) == 6) {
     process.exit();    
 }
 
-// add mqtt support
-var mqtt    = require('mqtt');
-//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
-var client  = mqtt.connect('mqtt://lb-mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
-console.log(client);
+
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
 const axios = require('axios');
 
