@@ -68,7 +68,7 @@ if ((args.length) == 6) {
 
 //var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
 var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
-//console.log(client);
+console.log(client);
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
 const axios = require('axios');
 
