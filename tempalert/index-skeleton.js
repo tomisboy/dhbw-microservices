@@ -34,7 +34,8 @@ function mqtt_messsageReceived(topic, message, packet)
 {   
     var obj = JSON.parse(message);
     locid = obj.locid;
-    sensortype = obj.sensortype
+    sensortype = obj.unique_sensor_id
+
     value = obj.value
 
 

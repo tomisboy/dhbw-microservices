@@ -91,7 +91,7 @@ function intervalFunc() {
   }
   // sende Beginn Fahrt Daten
 
-    mqttmsg['id'] = unique_sensor_id;
+    mqttmsg['unique_sensor_id'] = unique_sensor_id;
     mqttmsg['timestamp'] = new Date().toISOString();
     mqttmsg['locid'] = locid;
     mqttmsg['gpslatitude'] = '48.60000';
