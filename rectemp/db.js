@@ -31,6 +31,7 @@ module.exports = {
     
     
         const insert_sensor_messung = {
+            unique_sensor_id: messung.id,
             timestamp: messung.timestamp,
             locid: messung.locid,
             locdescription: locdescription,

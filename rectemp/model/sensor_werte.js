@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 let Sensor_Schema = new Schema(
     {
+        unique_sensor_id: {type: String},
         timestamp: { type: String },
         locid: { type: Number },
         locdescription: { type: String},
