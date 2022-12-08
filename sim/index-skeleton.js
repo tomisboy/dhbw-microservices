@@ -21,9 +21,7 @@ app.use(cors());
 
 // required to handle the request body
 app.use(express.json());
-function generateUID() {
-  return crypto.randomBytes(16).toString('hex');
-}
+
 
 function randomValue(min, max) {
   min = Math.ceil(min);
@@ -32,6 +30,7 @@ function randomValue(min, max) {
 }
 
 // parameter für die Übermittlung der Testdaten
+unique_sensor_id = crypto.randomBytes(16).toString('hex')
 var timeinterval = 10000;
 var locid = '1234';
 var simanzahl = 5;
@@ -73,7 +72,7 @@ if ((args.length) == 6) {
 }
 
 //var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
-var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim-R4Nd0mSTRING" + locid+ sensortype});
+var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim" + unique_sensor_id +"---" + locid+ sensortype});
 console.log(client);
 //var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
 const axios = require('axios');
@@ -92,7 +91,7 @@ function intervalFunc() {
   }
   // sende Beginn Fahrt Daten
 
-    mqttmsg['id'] = generateUID();
+    mqttmsg['id'] = unique_sensor_id;
     mqttmsg['timestamp'] = new Date().toISOString();
     mqttmsg['locid'] = locid;
     mqttmsg['gpslatitude'] = '48.60000';
