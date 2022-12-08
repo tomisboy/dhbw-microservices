@@ -7,17 +7,23 @@ var mqtt    = require('mqtt');
 
 //Setzte mqtturl (auf LB von Kubernetes)
 
-var mqttHOSTurl = "192.168.49.2:32244" 
+var mqttHOSTurl = "192.168.49.2:31501" 
 
 
 const express = require('express');
 const app = express();
+
+const crypto = require('crypto');
+
 
 const cors = require('cors'); 
 app.use(cors());
 
 // required to handle the request body
 app.use(express.json());
+function generateUID() {
+  return crypto.randomBytes(16).toString('hex');
+}
 
 function randomValue(min, max) {
   min = Math.ceil(min);
@@ -86,7 +92,7 @@ function intervalFunc() {
   }
   // sende Beginn Fahrt Daten
 
-   
+    mqttmsg['id'] = generateUID();
     mqttmsg['timestamp'] = new Date().toISOString();
     mqttmsg['locid'] = locid;
     mqttmsg['gpslatitude'] = '48.60000';
