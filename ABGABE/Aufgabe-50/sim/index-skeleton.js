@@ -9,7 +9,7 @@ var mqtt    = require('mqtt');
 
 //var mqttHOSTurl = "192.168.49.2:31501" 
 
-mqttHOSTurl = "mqtt:1883"
+var mqttHOSTurl = "mqtt:1883"
 const express = require('express');
 const app = express();
 
