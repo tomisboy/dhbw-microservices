@@ -38,7 +38,7 @@ services:
 
 
     
-networks:
-  default:
-    name: mqtt
-    external: true
+#networks:
+#  default:
+#    name: mqtt
+#    external: true
