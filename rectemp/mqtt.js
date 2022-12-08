@@ -2,11 +2,13 @@ var mqtt = require('mqtt');
 const db = require('./db.js')
 const configs = require('./configs.js')
 
+const crypto = require('crypto');
 console.log("MQTT_HOST=mqtt://"+ global.env.MQTT_HOST);
 var Topic = '4934001/#'; //subscribe to all topics from postapp
 //var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
-useTimeAsUnique = new Date().toISOString()
-var client = mqtt.connect("mqtt://"+ global.env.MQTT_HOST, { clientId: "rectemp-"+ useTimeAsUnique  });
+var uniqueid = crypto.randomBytes(16).toString('hex')
+
+var client = mqtt.connect("mqtt://"+ global.env.MQTT_HOST, { clientId: "rectemp-"+ uniqueid  });
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);
 client.on('error', mqtt_error);

@@ -5,7 +5,8 @@
 // add mqtt support
 var mqtt    = require('mqtt');
 
-//Setzte mqtturl (auf LB von Kubernetes)
+//Setzte mqtturl (auf LB von Kubernetes inklive Port /
+//                bsp var mqttHOSTurl = "192.168.49.2:31501"  )
 
 var mqttHOSTurl = "192.168.49.2:31501" 
 
