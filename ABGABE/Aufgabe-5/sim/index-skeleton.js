@@ -5,11 +5,16 @@
 // add mqtt support
 var mqtt    = require('mqtt');
 
+
+//############################################################
+
 //Setzte mqtturl (auf LB von Kubernetes)
 
 //var mqttHOSTurl = "192.168.49.2:31501" 
+var mqttHOSTurl = "localhost:1883"
 
-var mqttHOSTurl = "mqtt:1883"
+//##############################################################
+
 const express = require('express');
 const app = express();
 
@@ -18,8 +23,6 @@ const crypto = require('crypto');
 
 const cors = require('cors'); 
 app.use(cors());
-
-// required to handle the request body
 app.use(express.json());
 
 
@@ -62,8 +65,6 @@ if ((args.length) == 6) {
   simanzahl = args[2];
   sensortype = args[3];
   min = parseInt(args[4]);
-
-  
   max = parseInt(args[5]);
   MessdatensensorID = args[6];
 } else {
@@ -71,12 +72,8 @@ if ((args.length) == 6) {
     process.exit();    
 }
 
-//var client  = mqtt.connect('mqtt://mqtt:1883',{clientId:"sim-R4Nd0mSTRING" + locid});
 var client  = mqtt.connect('mqtt://'+mqttHOSTurl,{clientId:"sim" + unique_sensor_id +"---" + locid+ sensortype});
 console.log(client);
-//var client  = mqtt.connect('mqtt://test.mosquitto.org',{clientId:"sim-R4Nd0mSTRING" + locid});
-const axios = require('axios');
-
 myinterval = setInterval(intervalFunc, timeinterval*1000);
 
 var mqttmsg = {};
@@ -98,17 +95,9 @@ function intervalFunc() {
     mqttmsg['gpslongitude'] = '8.90000';
     mqttmsg['sensortype'] = sensortype
 
-//////////////////////////////////////////////////
-//
-//  fragen obs ok ist die Werte per zufall in range
-//
-/////////////////////////////////////////////////
+
     value = randomValue(min,max)
  
-    //if (value >= max)
-    //  value = max; 
-    //else
-    //  value = min + i;
     mqttmsg['value'] = value;
 
     console.log('mqttmsg = ', mqttmsg);
@@ -135,8 +124,3 @@ function intervalFunc() {
 
 
 }
-//app.listen(4000, () =>{
-//  myinterval = setInterval(intervalFunc, 15000);
-
-//  console.log('Listening on port 4000')
-//});

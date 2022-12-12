@@ -1,3 +1,7 @@
 src/node_modules
 node_modules
 sim.zip
+data/mosquitto.db
+log/mosquitto.log
+ABGABE/Aufgabe-5/mqtt/mosquitto/data/mosquitto.db
+ABGABE/Aufgabe-5/mqtt/mosquitto/log/mosquitto.log
