@@ -7,12 +7,9 @@ var mqtt    = require('mqtt');
 
 
 //############################################################
-
 //Setzte mqtturl (auf LB von Kubernetes)
-
 //var mqttHOSTurl = "192.168.49.2:31501" 
 var mqttHOSTurl = "localhost:1883"
-
 //##############################################################
 
 const express = require('express');
