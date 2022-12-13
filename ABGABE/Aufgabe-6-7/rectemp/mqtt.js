@@ -79,7 +79,7 @@ function mqtt_messsageReceived(topic, message, packet) {
 function check_valide_sensor(message) {
     var messung = JSON.parse(message);
     //console.log(locid)
-    if (loc_configs[0].includes(parseInt(messung.locid)))
+    if (loc_configs.includes(parseInt(messung.locid)))
         // Sensor ist in liste der erlaubten sensore und nachricht wird genemigt console.log("Sensor genemigt");
         return true
     else {

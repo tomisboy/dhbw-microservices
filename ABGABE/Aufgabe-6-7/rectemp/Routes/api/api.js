@@ -113,33 +113,6 @@ router.post('/change-parameter', async (req, res) => {
     else { return res.status(404).send("Fehler!  Keine Daten geändert") };
 })
 
-router.post('/loc_configs', async (req, res) => {
-    var userid = req.body.userid;
-    var password = req.body.password;
-
-    const login = (userid === authentifcation.userid && password === authentifcation.password);
-
-    console.log(userid === authentifcation.userid)
-    if (login && req.body.locid && req.body.locdescription) { 
-      console.log("")
-        //Wenn authentifiziert und locid und locdescription vorhanden ist 
-
-        if (global.loc_configs[0].includes(parseInt(req.body.locid))) {
-            index = global.loc_configs[0].indexOf(parseInt(req.body.locid));
-            global.loc_configs[1][index] = req.body.locdescription;
-            console.log(global.loc_configs)
-            return res.status(200).send("Beschreibung von Location:" +req.body.locid + " auf -> " + global.loc_configs[1][index]+ " <- gewechselt ");
-        }
-        else return res.status(404).send("error " + global.loc_configs[1][index])
-
-
-
-    }
-    else return res.status(404).send("error: einloggen und locid und locdescription angeben")
-
-
-})
-
 
 
 module.exports = router;

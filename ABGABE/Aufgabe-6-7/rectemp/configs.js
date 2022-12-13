@@ -3,8 +3,7 @@
 //           Config  
 // Nur definierte Sensoren werden akzeptiert 
 // hier werden die locid der Sensoren definiert, von denen Nachrichten empfangen und gespeichert werden sollen 
-global.loc_configs = [[1234, 3456, 4567, 5678],
-["Beschreibung 1234", "Beschreibung 3456", "Beschreibung 4567", "Beschreibung 5678"]];
+global.loc_configs = [1234, 3456, 4567, 5678]
 
 //Schwellwerte:
 //(Temperatur: Innerräume dürfen nur zwischen 16 und 19 Grad beheizt werden)

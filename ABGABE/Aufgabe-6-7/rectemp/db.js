@@ -35,17 +35,11 @@ module.exports = {
         var messung = JSON.parse(message);
         //console.log(messung)
 
-        // Füge locdescription in die Messung
-        index = global.loc_configs[0].indexOf(parseInt(messung.locid));
-        //console.log(index + ">index")
-        locdescription = global.loc_configs[1][index]
-
 
         const insert_sensor_messung = {
             unique_sensor_id: messung.unique_sensor_id,
             timestamp: messung.timestamp,
             locid: messung.locid,
-            locdescription: locdescription,
             gpslatitude: messung.gpslatitude,
             gpslongitude: messung.gpslongitude,
             sensortype: messung.sensortype,
