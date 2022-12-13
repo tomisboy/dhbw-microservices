@@ -1,9 +1,20 @@
 const configs = require('./configs.js')
 var mongoose = require('mongoose');
 
-// Wenn Datenbank-Config vorhanden,  verwende Config um mit MongoDB zu Connecten
-if (env) {
-    var mongooseurl = "mongodb://" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;
+// Hier wird entschieden mit welchen Paramtern auf die MongoDB verbunden wird
+// Für diesen MVP wurde Mongo DB OHNE zugriffsschutzt als anonyme Zugangsdaten konfiguriert 
+
+if (global.env.DB_HOST && global.env.DB_PORT) { 
+    // Überprüfe ob Zugriffsparameter vorhanden sind
+    if (global.env.DB_IS_SECURED === 'True') {
+        // Falls Mongo DB mit Username und Passwort authentfiziert werden muss verwende diesen connection String:
+        var mongooseurl = "mongodb://" + global.env.DB_USERNAME + ":" + global.env.DB_PASSWORD + "@" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;
+    }
+    else { 
+        // mongo DB Paramter aus  Config aber keine Authentifizierung mittels Username oder Password
+        var mongooseurl = "mongodb://" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;
+    }
+
 }
 else {
     //Datenbank-Config nicht vorhanden nutzte Vorgaben aus dem Anfordungsdokument 
@@ -23,13 +34,13 @@ module.exports = {
         const sonsor_daten = require('./model/sensor_werte.js');
         var messung = JSON.parse(message);
         //console.log(messung)
-    
+
         // Füge locdescription in die Messung
         index = global.loc_configs[0].indexOf(parseInt(messung.locid));
         //console.log(index + ">index")
         locdescription = global.loc_configs[1][index]
-    
-    
+
+
         const insert_sensor_messung = {
             unique_sensor_id: messung.unique_sensor_id,
             timestamp: messung.timestamp,
@@ -40,13 +51,13 @@ module.exports = {
             sensortype: messung.sensortype,
             value: messung.value
         };
-    
+
         //const duplicate = await User.findOne({userid: newUser.userid}).exec();
         sonsor_daten.insertMany(insert_sensor_messung);
         console.log("Schreibe in MongoDB ");
 
 
 
-      },
+    },
 
 }

@@ -2,11 +2,11 @@ var mqtt = require('mqtt');
 const db = require('./db.js')
 const configs = require('./configs.js')
 
-console.log("MQTT_HOST=mqtt://"+ global.env.MQTT_HOST);
+console.log("MQTT_HOST=mqtt://"+ global.env.MQTT_HOST + ":"+  global.env.MQTT_PORT);
 var Topic = '4934001/#'; //subscribe to all topics from postapp
 //var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
 useTimeAsUnique = new Date().toISOString()
-var client = mqtt.connect("mqtt://"+ global.env.MQTT_HOST, { clientId: "rectemp-"+ useTimeAsUnique  });
+var client = mqtt.connect("mqtt://"+ global.env.MQTT_HOST+ ":"+ global.env.MQTT_PORT, { clientId: "rectemp-"+ useTimeAsUnique  });
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);
 client.on('error', mqtt_error);
