@@ -24,9 +24,6 @@ router.get("/", async(req, res) => {
         console.log(err);
         return res.sendStatus(400);
       }
-      else {
-        //console.log("user document = ", docs);
-      }
       return res.status(200).send(docs);
     });
   });
@@ -43,9 +40,6 @@ router.get("/", async(req, res) => {
       if (err) {
         console.log(err);
         return res.sendStatus(400);
-      }
-      else {
-        //console.log("user document = ", docs);
       }
       return res.status(200).send(docs);
     });
@@ -71,7 +65,7 @@ router.post('/change-parameter', async (req, res) => {
             console.log(global.T_oben);
             rueckgabe += "\n T_oben wurde geändert auf: " + global.T_oben;
         }
-        //return res.status(200).send('userid and password' + global.T_oben);
+
 
         if (isFinite(req.body.X_oben)) {
             global.X_oben = req.body.X_oben;
@@ -83,7 +77,6 @@ router.post('/change-parameter', async (req, res) => {
             global.P_unten = req.body.P_unten;
             console.log(global.global.P_unten);
             rueckgabe += "\n P_unten wurde geändert auf: " + global.P_unten;
-
         }
 
         if (isFinite(req.body.P_oben)) {
@@ -124,7 +117,6 @@ router.post('/loc_configs', async (req, res) => {
     var userid = req.body.userid;
     var password = req.body.password;
 
-    //const login = (userid === authentifcation.userid && password === authentifcation.password);
     const login = (userid === authentifcation.userid && password === authentifcation.password);
 
     console.log(userid === authentifcation.userid)

@@ -1,12 +1,16 @@
 var mqtt = require('mqtt');
 const db = require('./db.js')
 const configs = require('./configs.js')
+const crypto = require('crypto');
 
-console.log("MQTT_HOST=mqtt://"+ global.env.MQTT_HOST + ":"+  global.env.MQTT_PORT);
+
+
+
+console.log("MQTT_HOST=mqtt://" + global.env.MQTT_HOST + ":" + global.env.MQTT_PORT);
 var Topic = '4934001/#'; //subscribe to all topics from postapp
-//var client = mqtt.connect('mqtt://test.mosquitto.org', { clientId: "rectemp1-hsMQu1111hewiuhewuTT" });
-useTimeAsUnique = new Date().toISOString()
-var client = mqtt.connect("mqtt://"+ global.env.MQTT_HOST+ ":"+ global.env.MQTT_PORT, { clientId: "rectemp-"+ useTimeAsUnique  });
+unique_id = crypto.randomBytes(16).toString('hex')
+
+var client = mqtt.connect("mqtt://" + global.env.MQTT_HOST + ":" + global.env.MQTT_PORT, { clientId: "rectemp-" + unique_id });
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);
 client.on('error', mqtt_error);
@@ -24,17 +28,13 @@ function mqtt_subscribe(err, granted) {
 }
 
 function mqtt_messsageReceived(topic, message, packet) {
-    
+
     //console.log(global.T_unten, global.T_oben, global.X_oben, global.P_unten, global.P_oben, global.H_unten, global.H_oben, global.p_oben);
 
     if (!(check_valide_sensor(message))) {
         return // Abbruch wenn Sensor nicht genemigt wird ( nicht in der erlaubten list ist )
     }
     else {
-
-        check_sensor_liveiness(topic);
-
-
         if (valide_messung = validation_test(topic, message)) {
             // Nur Messungen im Gültigkeitsbereich werden weiter untersucht
             db.insert_mongodb(message); //schreibe in DB 
@@ -44,14 +44,12 @@ function mqtt_messsageReceived(topic, message, packet) {
                     //Überprüfe Schwellwert für T=temperature
                     if (valide_messung.value < global.T_unten || valide_messung.value > global.T_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-
                     break;
                 }
                 case 'X': {
                     //Überprüfe Schwellwert für X=co2
                     if (valide_messung.value > global.X_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
-
                     break;
                 }
                 case 'P': {
@@ -62,16 +60,12 @@ function mqtt_messsageReceived(topic, message, packet) {
                 }
                 case 'H': {
                     //Überprüfe Schwellwert für H=luftfeuchtigkeit
-
                     if (valide_messung.value < global.H_unten || valide_messung.value > global.H_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
                     break;
                 }
-
                 case 'p': {
                     //Überprüfe Schwellwert für p=Feinstaub (Feinstaub = PM2,5)
-
-
                     if (valide_messung.value > global.p_oben)
                         sende_schwellwert_mqtt_message(valide_messung.sensortyp, valide_messung.value, valide_messung.messung)
                     break;
@@ -80,28 +74,6 @@ function mqtt_messsageReceived(topic, message, packet) {
             }
         }
     }
-}
-
-
-function check_sensor_liveiness(topic) {
-    /*if (!(akuelle_sensoren.includes(topic))) {
-        akuelle_sensoren.push(topic);
-        timeout = setTimeout(() => {
-        console.log('timeout beyond time');
-    }, 10500);
-    }
-    var timeout = topic
-    console.log(timeout + "vor")
-    
-
-
-    clearTimeout(timeout);
-*/
-}
-
-
-function check_timeout(topic, restart) {
-
 }
 
 function check_valide_sensor(message) {
@@ -126,7 +98,7 @@ function validation_test(topic, message) {
     gueltig = 0;
     switch (sensortyp) {
         case 'T': {
-            //temeratur Werte nur gültig wenn sie zwiswchen -10 und 50 Grad sind
+            //temperatur Werte nur gültig wenn sie zwiswchen -10 und 50 Grad sind
             if (value >= -10 && value < 50)
                 gueltig = 1;
             break;
@@ -170,11 +142,10 @@ function validation_test(topic, message) {
 }
 
 function sende_schwellwert_mqtt_message(sensortype, value, messung) {
-    mqttopic = "4934001-errorCase/Schwellwert-" + sensortype 
+    mqttopic = "4934001-errorCase/Schwellwert-" + sensortype
     console.log(">\tSchwellwert für " + sensortype + " erreicht --> " + value + " <-- \t  Publishe an " + mqttopic + "\n");
     client.publish(mqttopic, JSON.stringify(messung));
 }
-
 
 function mqtt_reconnect(err) {
     console.log("Reconnect MQTT");
@@ -187,14 +158,7 @@ function mqtt_error(err) {
     if (err) { console.log(err); }
 }
 
-function after_publish() {
-    //do nothing
-}
-
 function mqtt_close(err) {
     console.log("Close MQTT");
     if (err) { console.log(err); }
 }
-//const express = require("express");
-//const router = express.Router();
-//module.exports = router;

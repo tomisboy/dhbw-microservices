@@ -5,7 +5,7 @@ router.get("/", async(req, res) => {
     
   //if(counter < 3){
     //counter ++;
-  return res.status(200).send("OK "+ counter);
+  return res.status(200).send("OK");
   //}
   });
 
