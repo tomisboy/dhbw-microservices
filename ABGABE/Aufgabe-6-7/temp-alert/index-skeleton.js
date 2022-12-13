@@ -1,6 +1,13 @@
 var mqtt = require('mqtt');
+
+
+//############################################################
+//Setzte mqtturl (auf LB von Kubernetes)
+//var mqttHOSTurl = "192.168.49.2:31501" 
+var mqttHOSTurl = "mqtt:1883"
+//##############################################################
 var Topic = '4934001-errorCase/#'; //subscribe to all topics from postapp
-var client = mqtt.connect('mqtt://mqtt:1883', { clientId: "tempalert-random1234" });
+var client = mqtt.connect('mqtt://'+mqttHOSTurl, { clientId: "tempalert-random1234" });
 
 
 client.on('connect', mqtt_connect);
@@ -9,15 +16,6 @@ client.on('error', mqtt_error);
 client.on('message', mqtt_messsageReceived);
 client.on('close', mqtt_close);
 
-function mqtt_connect() {
-    console.log("Connecting MQTT");
-    client.subscribe(Topic, mqtt_subscribe);
-}
-
-function mqtt_subscribe(err, granted) {
-    console.log("Subscribed to " + Topic);
-    if (err) { console.log(err); }
-}
 
 
 function mqtt_messsageReceived(topic, message, packet) {
@@ -35,6 +33,17 @@ function mqtt_messsageReceived(topic, message, packet) {
     console.log("Wert: " + value + " bei Sensor " + sensortype + " am Standort " + locid + ":");
     console.log('Topic=' + topic + '  \nMessage=' + message);
     console.log("\n")
+}
+
+
+function mqtt_connect() {
+    console.log("Connecting MQTT");
+    client.subscribe(Topic, mqtt_subscribe);
+}
+
+function mqtt_subscribe(err, granted) {
+    console.log("Subscribed to " + Topic);
+    if (err) { console.log(err); }
 }
 
 

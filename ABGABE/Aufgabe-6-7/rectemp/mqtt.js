@@ -2,20 +2,17 @@ var mqtt = require('mqtt');
 const db = require('./db.js')
 const configs = require('./configs.js')
 const crypto = require('crypto');
-
-
-
-
-console.log("MQTT_HOST=mqtt://" + global.env.MQTT_HOST + ":" + global.env.MQTT_PORT);
-var Topic = '4934001/#'; //subscribe to all topics from postapp
 unique_id = crypto.randomBytes(16).toString('hex')
 
+var Topic = '4934001/#'; //subscribe to all topics from postapp
 var client = mqtt.connect("mqtt://" + global.env.MQTT_HOST + ":" + global.env.MQTT_PORT, { clientId: "rectemp-" + unique_id });
+
 client.on('connect', mqtt_connect);
 client.on('reconnect', mqtt_reconnect);
 client.on('error', mqtt_error);
 client.on('message', mqtt_messsageReceived);
 client.on('close', mqtt_close);
+console.log("MQTT_HOST=mqtt://" + global.env.MQTT_HOST + ":" + global.env.MQTT_PORT);
 
 function mqtt_connect() {
     console.log("Connecting MQTT");
@@ -142,7 +139,7 @@ function validation_test(topic, message) {
 }
 
 function sende_schwellwert_mqtt_message(sensortype, value, messung) {
-    mqttopic = "4934001-errorCase/Schwellwert-" + sensortype
+    mqttopic = "4934001-errorCase/Schwellwert"
     console.log(">\tSchwellwert für " + sensortype + " erreicht --> " + value + " <-- \t  Publishe an " + mqttopic + "\n");
     client.publish(mqttopic, JSON.stringify(messung));
 }

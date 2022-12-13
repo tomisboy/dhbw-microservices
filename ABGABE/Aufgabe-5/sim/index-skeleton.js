@@ -64,6 +64,8 @@ if ((args.length) == 6) {
   min = parseInt(args[4]);
   max = parseInt(args[5]);
   MessdatensensorID = args[6];
+  mqttopic="4934001/messungen"
+
 } else {
     console.log("Wrong no of arguemts ");
     process.exit();    
@@ -98,21 +100,8 @@ function intervalFunc() {
     mqttmsg['value'] = value;
 
     console.log('mqttmsg = ', mqttmsg);
-    if (args[3] == 'T') {
-        mqttopic='4934001/T/'+locid;
-    }
-    if (args[3] == 'X') {
-      mqttopic='4934001/X/'+locid;
-    }
-    if (args[3] == 'H') {
-      mqttopic='4934001/H/'+locid;
-    }
-    if (args[3] == 'P') {
-      mqttopic='4934001/P/'+locid;
-    }  
-    if (args[3] == 'p') {
-      mqttopic='4934001/p/'+locid;
-    }
+
+
 
     console.log('mqttopic =', mqttopic);
     console.log('mqtt msg',JSON.stringify(mqttmsg));
