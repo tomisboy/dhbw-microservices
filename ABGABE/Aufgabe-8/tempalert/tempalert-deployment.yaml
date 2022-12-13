@@ -16,7 +16,7 @@ spec:
       containers:
       - name: tempalert
         image: tomisboy/pub:tempalert
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
 
