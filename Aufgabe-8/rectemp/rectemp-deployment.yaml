@@ -30,7 +30,7 @@ spec:
             path: /healthz
             port: 5000
           initialDelaySeconds: 15
-          periodSeconds: 15
+          periodSeconds: 5
 
 
 

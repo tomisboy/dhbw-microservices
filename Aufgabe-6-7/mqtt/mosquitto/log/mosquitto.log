@@ -725,3 +725,24 @@
 1670978039: Client tempalert-random1234 closed its connection.
 1670978039: mosquitto version 2.0.15 terminating
 1670978039: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1671040982: mosquitto version 2.0.15 starting
+1671040982: Config loaded from /mosquitto/config/mosquitto.conf.
+1671040982: Opening ipv4 listen socket on port 1883.
+1671040982: Opening ipv6 listen socket on port 1883.
+1671040982: mosquitto version 2.0.15 running
+1671040983: New connection from 172.18.0.1:42070 on port 1883.
+1671040983: New client connected from 172.18.0.1:42070 as sim74c31fa6f6d2b958539d9d66587b9852---1234X (p2, c1, k60).
+1671040983: New connection from 172.18.0.1:42074 on port 1883.
+1671040983: New client connected from 172.18.0.1:42074 as sim8034ef0da97b6e56bf4ab36cf691b6e8---1234T (p2, c1, k60).
+1671040983: New connection from 172.18.0.1:42076 on port 1883.
+1671040983: New client connected from 172.18.0.1:42076 as sim7d8b1db3b2c49f6f20673a2294f1f9d5---3456P (p2, c1, k60).
+1671040983: New connection from 172.18.0.1:42078 on port 1883.
+1671040983: New client connected from 172.18.0.1:42078 as sim70d1afb86cc7707aea9d43b81e735a17---4567H (p2, c1, k60).
+1671040983: New connection from 172.18.0.2:33554 on port 1883.
+1671040983: New client connected from 172.18.0.2:33554 as tempalert-random1234 (p2, c1, k60).
+1671040983: New connection from 172.18.0.1:42082 on port 1883.
+1671040983: New client connected from 172.18.0.1:42082 as sim9aeb76d88aa243560eeeee2c83515520---5678p (p2, c1, k60).
+1671040984: New connection from 172.18.0.3:41056 on port 1883.
+1671040984: New client connected from 172.18.0.3:41056 as rectemp-228826404a404b9f278b02f24cdfcdb9 (p2, c1, k60).
+1671041138: mosquitto version 2.0.15 terminating
+1671041138: Saving in-memory database to /mosquitto/data//mosquitto.db.
