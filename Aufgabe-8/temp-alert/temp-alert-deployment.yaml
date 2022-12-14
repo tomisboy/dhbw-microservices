@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temp-alert
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temp-alert
+  template:
+    metadata:
+      labels:
+        app: temp-alert
+    spec:
+      containers:
+      - name: temp-alert
+        image: tomisboy/pub:temp-alert
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+
+
+
+
+
+
+

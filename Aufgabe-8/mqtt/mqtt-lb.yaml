@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mqtt
+  annotations:
+spec:
+  selector:
+    app: mqtt
+  type: LoadBalancer
+  ports:
+  - name: mqtt
+    port: 1883
+    targetPort: 1883
