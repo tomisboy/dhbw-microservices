@@ -8,7 +8,7 @@ if (global.env.DB_HOST && global.env.DB_PORT) {
     // Überprüfe ob Zugriffsparameter vorhanden sind
     if (global.env.DB_IS_SECURED === 'True') {
         // Falls Mongo DB mit Username und Passwort authentfiziert werden muss verwende diesen connection String:
-        var mongooseurl = "mongodb://" + global.env.DB_USERNAME + ":" + global.env.DB_PASSWORD + "@" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE;
+        var mongooseurl = "mongodb://" + global.env.DB_USERNAME + ":" + global.env.DB_PASSWORD + "@" + global.env.DB_HOST + ":" + global.env.DB_PORT + "/" + global.env.DB_DATEBASE+ "?authSource=admin";
     }
     else { 
         // mongo DB Paramter aus  Config aber keine Authentifizierung mittels Username oder Password

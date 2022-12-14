@@ -10,6 +10,7 @@ var authentifcation = {
 
 
 router.get("/", async(req, res) => {
+  console.log("HIU")
     console.log("find all docs in mongodb");
     alldocs = await sensor_werte.find({}).exec();
     return res.status(200).send(alldocs);

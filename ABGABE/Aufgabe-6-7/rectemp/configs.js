@@ -37,9 +37,9 @@ global.env = {
     DB_HOST: "mongo",
     DB_PORT: "27017",
     DB_DATEBASE: "Temperatur",
-    DB_IS_SECURED: "False",
-    DB_USERNAME: "wird-nicht-verwendet-Annymer-Zugriff-auf-DB-gesetzt",
-    DB_PASSWORD: "wird-nicht-verwendet-Annymer-Zugriff-auf-DB-gesetzt",
+    DB_IS_SECURED: "True",
+    DB_USERNAME: "mongoadmin",
+    DB_PASSWORD: "secret",
     USERID: "admin",
     PASSWORD: "admin",
 }
